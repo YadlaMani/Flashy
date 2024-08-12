@@ -58,7 +58,13 @@ export default function Home() {
           your topics and flashcards all in one place.
         </p>
         <div className="w-full max-w-7xl p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
-          <FlashCards isDarkMode={isDarkMode} />
+          <FlashCards
+            isDarkMode={isDarkMode}
+            isDialogOpen={isDialogOpen}
+            setIsDialogOpen={setIsDialogOpen}
+            setTopicData={setTopicData}
+            topicData={topicData}
+          />
         </div>
       </main>
 

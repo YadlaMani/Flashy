@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,6 @@ import { Textarea } from "../ui/textarea";
 import { addTopicAction } from "@/actions";
 import { initalTopicData } from "../../utils";
 
-import { useRouter } from "next/navigation";
-
 const AddTopicDialog = ({
   isDialogOpen,
   setIsDialogOpen,
@@ -22,6 +20,8 @@ const AddTopicDialog = ({
   setTopicData,
   isDarkMode,
 }) => {
+  const endOfContentRef = useRef(null);
+
   const handleAddFlashcard = () => {
     setTopicData((prevState) => ({
       ...prevState,
@@ -49,6 +49,12 @@ const AddTopicDialog = ({
     }
   };
 
+  useEffect(() => {
+    if (endOfContentRef.current) {
+      endOfContentRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [topicData.flashcards]);
+
   return (
     <Dialog
       open={isDialogOpen}
@@ -63,7 +69,7 @@ const AddTopicDialog = ({
       <DialogContent
         className={`p-6 rounded-lg shadow-lg max-w-md mx-auto ${
           isDarkMode ? "bg-gray-900" : "bg-white"
-        }`}
+        } overflow-y-auto max-h-[80vh]`}
       >
         <DialogHeader>
           <DialogTitle
@@ -127,6 +133,7 @@ const AddTopicDialog = ({
               />
             </div>
           ))}
+          <div ref={endOfContentRef} />
           <Button
             onClick={handleAddFlashcard}
             className={`bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ${

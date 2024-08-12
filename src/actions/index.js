@@ -21,3 +21,7 @@ export async function deleteTopicAction(deleteTopicId) {
   await connectToDB();
   await Topic.findByIdAndDelete(deleteTopicId);
 }
+export async function editTopicAction(editTopicId, topic) {
+  await connectToDB();
+  await Topic.findOneAndUpdate({ _id: editTopicId }, topic);
+}

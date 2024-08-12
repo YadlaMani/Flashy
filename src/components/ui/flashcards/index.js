@@ -1,18 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
 import ReactCardFlip from "react-card-flip";
-import {
-  getFlashcardAction,
-  deleteTopicAction,
-  updateTopicAction,
-} from "@/actions"; // Ensure these functions are implemented
-
+import { getFlashcardAction, deleteTopicAction } from "@/actions"; // Ensure these functions are implemented
+import EditTopicDialog from "@/components/edit-topic-modal";
+import { initalTopicData } from "@/utils";
 const FlashCards = ({ isDarkMode }) => {
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editTopicData, setEditTopicData] = useState(initalTopicData);
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -65,7 +64,11 @@ const FlashCards = ({ isDarkMode }) => {
     window.location.reload();
   };
   //edit function
-  const handleEditTopic = (topic) => {};
+  const handleEditTopic = (topic) => {
+    setIsDialogOpen(true);
+
+    setEditTopicData(topic);
+  };
 
   return (
     <div
@@ -271,6 +274,13 @@ const FlashCards = ({ isDarkMode }) => {
           </div>
         </div>
       )}
+      <EditTopicDialog
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+        topicData={editTopicData}
+        setTopicData={setEditTopicData}
+        isDarkMode={isDarkMode}
+      />
     </div>
   );
 };
